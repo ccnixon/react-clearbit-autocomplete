@@ -1,0 +1,29 @@
+{
+  "name": "react-clearbit-autocomplete",
+  "version": "0.0.0",
+  "description": "react-clearbit-autocomplete",
+  "main": "dist/react-clearbit-autocomplete.min.js",
+  "homepage": "https://github.com/ccnixon/react-clearbit-autocomplete",
+  "authors": [
+    "Chris Nixon"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "react",
+    "react-component"
+  ],
+  "license": "MIT",
+  "ignore": [
+    ".editorconfig",
+    ".gitignore",
+    "package.json",
+    "src",
+    "node_modules",
+    "example",
+    "test"
+  ]
+}
