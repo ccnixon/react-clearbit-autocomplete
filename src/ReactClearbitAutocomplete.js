@@ -1,39 +1,64 @@
 var React = require('react');
-
 var ReactClearbitAutocomplete = React.createClass({
 
   getInitialState: function() {
       return {
         query: '',
-        results: ['apples', 'pears', 'oranges']
+        results: []
       };
   },
 
   appendToQuery: function(e) {
-    if (e.key.length === 1){
-      this.state.query += e.key.toLowerCase();
-      console.log(this.state.query);
-      this.setState(function(state) {
-        return {
-         results: state.results.concat('peaches')
-        }
-      });
-    }
+    console.log(global.window.getComputedStyle(this.refs.input))
+    console.log(this.refs.input.getBoundingClientRect());
+    this.setState({ query: e.target.value }, this.queryClearbit);
   },
 
   queryClearbit: function(){
-    return true;
+    var query = this.state.query;
+    if (query.length == 0){
+      this.setState({ results: [] });
+      return;
+    }
+    fetch('https://autocomplete.clearbit.com/v1/companies/suggest?query=' + query)
+    .then(function(response){
+      if (response.status != 200){
+        return Promise.reject(new Error(response.statusText))
+      } else {
+        return response.json()
+      }
+    })
+    .then(this.updateResults)
+    .catch(function(err){
+      console.log(err)
+    })
+  },
+
+  updateResults: function(results){
+    this.setState({ results: results })
   },
 
 	render () {
+
     var results = this.state.results.map(function(result, index){
-      return <li key={index}>{result}</li>
+      return (
+        <div key={index} className="autocomplete-suggestion">
+          {result.name}
+        </div>
+      )
     });
 
 		return (
-      <div>
-        <input type="text" id="autocomplete" autcomplete="off" onKeyDown={this.appendToQuery}/>
-        <div>{results}</div>
+      <div id="autocomplete">
+        <input 
+          type="text" 
+          id="input" 
+          ref="input"
+          value={this.state.query} 
+          autcomplete="off" 
+          placeholder='Company name...'
+          onChange={this.appendToQuery}/>
+        <div id="suggestions">{results}</div>
       </div>
     );
 	}
