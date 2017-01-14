@@ -6,7 +6,8 @@ var App = React.createClass({
 	render () {
 		return (
 			<div>
-				<ReactClearbitAutocomplete />
+				<ReactClearbitAutocomplete 
+          id="autocomplete" />
 			</div>
 		);
 	}
