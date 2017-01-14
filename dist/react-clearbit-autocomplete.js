@@ -17,8 +17,6 @@ var ReactClearbitAutocomplete = React.createClass({
   },
 
   appendToQuery: function appendToQuery(e) {
-    console.log(global.window.getComputedStyle(this.refs.input));
-    console.log(this.refs.input.getBoundingClientRect());
     this.setState({ query: e.target.value }, this.queryClearbit);
   },
 
@@ -40,6 +38,7 @@ var ReactClearbitAutocomplete = React.createClass({
   },
 
   updateResults: function updateResults(results) {
+    console.log(results);
     this.setState({ results: results });
   },
 
@@ -48,8 +47,18 @@ var ReactClearbitAutocomplete = React.createClass({
     var results = this.state.results.map(function (result, index) {
       return React.createElement(
         'div',
-        { key: index, className: 'autocomplete-suggestion' },
-        result.name
+        { key: index, className: 'suggestion' },
+        React.createElement('img', { align: 'center', src: result.logo }),
+        React.createElement(
+          'span',
+          { className: 'company-name' },
+          result.name
+        ),
+        React.createElement(
+          'span',
+          { className: 'company-domain' },
+          result.domain
+        )
       );
     });
 
