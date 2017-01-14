@@ -20,6 +20,10 @@ var ReactClearbitAutocomplete = React.createClass({
     this.setState({ query: e.target.value }, this.queryClearbit);
   },
 
+  handleKeyDown: function handleKeyDown(e) {
+    if (!this.state.results.length) return;
+  },
+
   queryClearbit: function queryClearbit() {
     var query = this.state.query;
     if (query.length == 0) {
@@ -38,7 +42,6 @@ var ReactClearbitAutocomplete = React.createClass({
   },
 
   updateResults: function updateResults(results) {
-    console.log(results);
     this.setState({ results: results });
   },
 
@@ -72,8 +75,9 @@ var ReactClearbitAutocomplete = React.createClass({
         value: this.state.query,
         autcomplete: 'off',
         placeholder: 'Company name...',
-        onChange: this.appendToQuery }),
-      React.createElement(
+        onChange: this.appendToQuery,
+        onKeyDown: this.handleKeyDown }),
+      this.state.results.length > 0 && React.createElement(
         'div',
         { id: 'suggestions' },
         results
