@@ -28,7 +28,7 @@ var ReactClearbitAutocomplete = React.createClass({
     /*
     * Required function to call after a user has selected a company.
      */
-    onClick: React.PropTypes.func.isRequired,
+    onCompanySelect: React.PropTypes.func.isRequired,
     /*
     * Placeholder text for input box. Defaults to 'Company name...'
      */
@@ -55,7 +55,6 @@ var ReactClearbitAutocomplete = React.createClass({
     };
   },
 
-  // TODO: grab query from input box not state update
   appendToQuery: function appendToQuery(e) {
     this.setState({ query: e.target.value }, this.queryClearbit);
   },
@@ -85,8 +84,7 @@ var ReactClearbitAutocomplete = React.createClass({
     if (e.key == 'Enter') {
       currentIndex = this.state.highlightedIndex;
       if (currentIndex < 0) return;
-      var company = this.state.results[currentIndex];
-      this.onSelect(company);
+      this.onSelect(currentIndex);
     }
   },
 
@@ -107,9 +105,18 @@ var ReactClearbitAutocomplete = React.createClass({
     });
   },
 
-  onSelect: function onSelect(company) {
+  onSelect: function onSelect(index) {
+    var company = this.state.results[index];
     this.setState({ query: company.name, results: [] });
-    this.props.onClick(company);
+    this.props.onCompanySelect(company);
+  },
+
+  highlightItemFromMouse: function highlightItemFromMouse(index) {
+    this.setState({ highlightedIndex: index });
+  },
+
+  selectItemFromMouse: function selectItemFromMouse(index) {
+    this.onSelect(index);
   },
 
   updateResults: function updateResults(results) {
@@ -121,7 +128,15 @@ var ReactClearbitAutocomplete = React.createClass({
       var companyClassName = this.props.companyProps.className;
       return React.createElement(
         'div',
-        { key: index, className: this.state.highlightedIndex === index ? companyClassName + ' selected' : companyClassName },
+        {
+          key: index,
+          className: this.state.highlightedIndex === index ? companyClassName + ' selected' : companyClassName,
+          onMouseEnter: (function () {
+            this.highlightItemFromMouse(index);
+          }).bind(this),
+          onMouseDown: (function () {
+            this.selectItemFromMouse(index);
+          }).bind(this) },
         React.createElement('img', { align: 'center', src: result.logo }),
         React.createElement(
           'span',

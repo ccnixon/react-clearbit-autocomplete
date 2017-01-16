@@ -11,7 +11,7 @@ var App = React.createClass({
 			<div>
 				<ReactClearbitAutocomplete 
           id="autocomplete"
-          onClick={this.processCompany} />
+          onCompanySelect={this.processCompany} />
 			</div>
 		);
 	}
