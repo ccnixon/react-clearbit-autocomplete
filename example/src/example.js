@@ -3,11 +3,15 @@ var ReactDOM = require('react-dom');
 var ReactClearbitAutocomplete = require('react-clearbit-autocomplete');
 
 var App = React.createClass({
+  processCompany: function(company){
+    console.log(company);
+  },
 	render () {
 		return (
 			<div>
 				<ReactClearbitAutocomplete 
-          id="autocomplete" />
+          id="autocomplete"
+          onClick={this.processCompany} />
 			</div>
 		);
 	}
