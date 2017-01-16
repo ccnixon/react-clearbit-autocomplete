@@ -17,7 +17,7 @@ var App = React.createClass({
 			null,
 			React.createElement(ReactClearbitAutocomplete, {
 				id: 'autocomplete',
-				onClick: this.processCompany })
+				onCompanySelect: this.processCompany })
 		);
 	}
 });
