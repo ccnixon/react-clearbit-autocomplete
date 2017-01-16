@@ -1,3 +1,4 @@
+require=(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"react-clearbit-autocomplete":[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -12,21 +13,29 @@ var ReactClearbitAutocomplete = React.createClass({
 
   propTypes: {
     /*
-    * Placeholder text for input box. Defaults to 'Company name...'
-     */
-    placeholder: React.PropTypes.string,
-    /*
-    * Optional props to pass to input box (ie. className, id, etc.)
-     */
-    inputProps: React.PropTypes.object,
-    /*
     * Optional props to pass into the dropdown box containing the returned companies.
      */
     companiesProps: React.PropTypes.object,
     /*
     * Optional props to pass into each company in the companies box.
      */
-    companyProps: React.PropTypes.object
+    companyProps: React.PropTypes.object,
+    /*
+    * Optional props to pass to input box (ie. className, id, etc.)
+     */
+    inputProps: React.PropTypes.object,
+    /*
+    * Required function to call after a user has selected a company.
+     */
+    onClick: React.PropTypes.func.isRequired,
+    /*
+    * Placeholder text for input box. Defaults to 'Company name...'
+     */
+    placeholder: React.PropTypes.string,
+    /*
+    * Optional function to specify how results should be rendered.
+     */
+    renderResults: React.PropTypes.func
   },
 
   getDefaultProps: function getDefaultProps() {
@@ -53,8 +62,9 @@ var ReactClearbitAutocomplete = React.createClass({
   handleKeyDown: function handleKeyDown(e) {
     if (!this.state.results.length) return;
     var currentIndex = this.state.highlightedIndex;
-    if (e.key === "ArrowDown") {
-      if (currentIndex == null) {
+
+    if (e.key === 'ArrowDown') {
+      if (currentIndex === null) {
         currentIndex = 0;
       } else {
         currentIndex = (currentIndex + 1) % this.state.results.length;
@@ -62,10 +72,20 @@ var ReactClearbitAutocomplete = React.createClass({
       this.setState({ highlightedIndex: currentIndex });
     }
 
-    if (e.key == "ArrowUp") {
+    if (e.key == 'ArrowUp') {
       e.preventDefault();
-      currentIndex = (currentIndex - 1) % this.state.results.length;
+      if (currentIndex === -1) {
+        currentIndex = this.state.results.length;
+      }
+      currentIndex = currentIndex - 1;
       this.setState({ highlightedIndex: currentIndex });
+    }
+
+    if (e.key == 'Enter') {
+      currentIndex = this.state.highlightedIndex;
+      if (currentIndex < 0) return;
+      var company = this.state.results[currentIndex];
+      this.onSelect(company);
     }
   },
 
@@ -86,6 +106,11 @@ var ReactClearbitAutocomplete = React.createClass({
     });
   },
 
+  onSelect: function onSelect(company) {
+    this.setState({ query: company.name, results: [] });
+    this.props.onClick(company);
+  },
+
   updateResults: function updateResults(results) {
     this.setState({ results: results });
   },
@@ -95,16 +120,16 @@ var ReactClearbitAutocomplete = React.createClass({
       var companyClassName = this.props.companyProps.className;
       return React.createElement(
         'div',
-        { key: index, className: this.state.highlightedIndex === index ? companyClassName + " selected" : companyClassName },
+        { key: index, className: this.state.highlightedIndex === index ? companyClassName + ' selected' : companyClassName },
         React.createElement('img', { align: 'center', src: result.logo }),
         React.createElement(
           'span',
-          { className: companyClassName + "-name" },
+          { className: companyClassName + '-name' },
           result.name
         ),
         React.createElement(
           'span',
-          { className: companyClassName + "-domain" },
+          { className: companyClassName + '-domain' },
           result.domain
         )
       );
@@ -113,7 +138,6 @@ var ReactClearbitAutocomplete = React.createClass({
   },
 
   render: function render() {
-    console.log(this.props);
     return React.createElement(
       'div',
       this.props,
@@ -136,3 +160,5 @@ var ReactClearbitAutocomplete = React.createClass({
 
 exports['default'] = ReactClearbitAutocomplete;
 module.exports = exports['default'];
+
+},{"react":undefined}]},{},[]);
