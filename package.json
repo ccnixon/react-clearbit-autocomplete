@@ -1,6 +1,6 @@
 {
   "name": "react-clearbit-autocomplete",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "react-clearbit-autocomplete",
   "main": "lib/ReactClearbitAutocomplete.js",
   "author": "Chris Nixon",
