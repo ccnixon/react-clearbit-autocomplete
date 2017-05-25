@@ -31,7 +31,7 @@ var ReactClearbitAutocomplete = React.createClass({
   getDefaultProps() {
     return {
       placeholder: 'Company name...',
-      companiesProps: {id: 'companies'},
+      companiesProps: {className: 'companies'},
       companyProps: {className: 'company'}
     };
   },
