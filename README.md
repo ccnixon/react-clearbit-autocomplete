@@ -7,6 +7,8 @@ A simple React input component that will autocomplete company names, logos, and 
 
 Live demo: [ccnixon.github.io/react-clearbit-autocomplete](http://ccnixon.github.io/react-clearbit-autocomplete/)
 
+Live PlayGround: [https://www.webpackbin.com/bins/-Kl-xoPzf4vNaeYouui_](https://www.webpackbin.com/bins/-Kl-xoPzf4vNaeYouui_)
+
 To build the examples locally, run:
 
 ```
