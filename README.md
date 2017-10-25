@@ -72,6 +72,11 @@ Default Value: `{}`
 
 Object of properties to pass into actual user input element.
 
+If you want to enable users to input & store comapny values that don't match a Clearbit known company, you can use inputProps to pass a function to onKeyPress which is not utilized by the core component.
+```
+  inputProps={{name: 'current_company', onKeyPress: this.storeCompany}}
+```
+
 ### `onClick: Function` (required)
 
 Handler function to be called after a user has selected a company.
