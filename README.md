@@ -72,7 +72,7 @@ Default Value: `{}`
 
 Object of properties to pass into actual user input element.
 
-If you want to enable users to input & store comapny values that don't match a Clearbit known company, you can use inputProps to pass a function to onKeyPress which is not utilized by the core component.
+If you want to enable users to input & store a value that didn't match a Clearbit known company, you can use inputProps to pass a function to onKeyPress which is not utilized by the core autocomplete component.
 ```
   inputProps={{name: 'current_company', onKeyPress: this.storeCompany}}
 ```
